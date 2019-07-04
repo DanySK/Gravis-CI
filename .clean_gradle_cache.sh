@@ -1,6 +1,7 @@
 #!/bin/bash
 rm -vfr $HOME/.gradle/caches/*/plugin-resolution
 rm -vfr $HOME/.gradle/caches/*/workerMain/
+rm -vfr $HOME/.gradle/caches/*/gradle-kotlin-dsl/*/cache/
 rm -vf $HOME/.gradle/caches/*/fileHashes/*.bin
 PATTERNS=(
     '*.lock'
