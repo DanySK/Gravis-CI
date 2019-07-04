@@ -18,30 +18,27 @@ unix_pre () {
 
 linux () {
     unix_pre
-    export JAVA_HOME="$HOME/.jabba/jdk/$JDK"
-    export PATH="$JAVA_HOME/bin:$PATH"
 }
 
 osx () {
     unix_pre
     export JAVA_HOME="$HOME/.jabba/jdk/$JDK/Contents/Home"
-    export PATH="$JAVA_HOME/bin:$PATH"
 }
 
 windows () {
     PowerShell -ExecutionPolicy Bypass -Command '[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; Invoke-Expression (Invoke-WebRequest https://github.com/shyiko/jabba/raw/master/install.ps1 -UseBasicParsing).Content'
     export jabba="$HOME/.jabba/bin/jabba.exe"
-    export JAVA_HOME="$HOME/.jabba/jdk/$JDK"
-    export PATH="$JAVA_HOME/bin:$PATH"
-    # Apparently exported variables are ignored in subseguent phases on Windows. Write in config file
-    echo "export JAVA_HOME=\"${JAVA_HOME}\"" >> ~/.windows_config
-    echo "export PATH=\"${PATH}\"" >> ~/.windows_config
     # Windows is unable to clean child processes, so no Gradle daemon allowed
     echo 'export GRADLE_OPTS="-Dorg.gradle.daemon=false"' >> ~/.windows_config
 }
 
 echo "running ${TRAVIS_OS_NAME}-specific configuration"
+export JAVA_HOME="$HOME/.jabba/jdk/$JDK"
 $TRAVIS_OS_NAME
+export PATH="$JAVA_HOME/bin:$PATH"
+# Apparently exported variables are ignored in subseguent phases on Windows. Write in config file
+echo "export JAVA_HOME=\"${JAVA_HOME}\"" >> ~/.jdk_config
+echo "export PATH=\"${PATH}\"" >> ~/.jdk_config
 install_jdk
 which java
 java -Xmx32m -version

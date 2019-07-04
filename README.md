@@ -43,12 +43,10 @@ cache:
 before_install:
   # Sets up the Java environment
   - curl "${GRAVIS}.install-jdk-travis.sh" --output .install-jdk-travis.sh
-  - bash .install-jdk-travis.sh
-# This is *required* iff you want to build also on Windows.
-# The Travis CI Windows environment does not seem to treat exported variables the same way
-# it does with OSX and Linux, so this further step is required to complete the Java installation
+# This is *required*, Travis CI does not seem to keep exported variables
 before_script:
-  - "if [ -f ~/.windows_config ]; then source ~/.windows_config; fi"
+  - bash .install-jdk-travis.sh
+#  - source ~/.jdk_config"
 # This is your main script
 script:
   # Just an example. Do what you deem useful
