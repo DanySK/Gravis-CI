@@ -42,7 +42,7 @@ cache:
     - $HOME/.gradle/wrapper/
 before_install:
   # Sets up the Java environment
-  - wget "${GRAVIS}.install-jdk-travis.sh"
+  - curl "${GRAVIS}.install-jdk-travis.sh" --output .install-jdk-travis.sh
   - bash .install-jdk-travis.sh
 # This is *required* iff you want to build also on Windows.
 # The Travis CI Windows environment does not seem to treat exported variables the same way
@@ -55,7 +55,7 @@ script:
   - ./gradlew clean check --scan --parallel
 # Cleanup the build cache from lock/temporary files
 before_cache:
-  - wget "${GRAVIS}.clean_gradle_cache.sh"
+  - curl "${GRAVIS}.clean_gradle_cache.sh" --output .clean_gradle_cache.sh
   - bash .clean_gradle_cache.sh
 ```
 
