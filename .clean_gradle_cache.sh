@@ -1,7 +1,7 @@
 #!/bin/bash
-rm -fr $HOME/.gradle/caches/*/plugin-resolution
-rm -fr $HOME/.gradle/caches/*/workerMain/
-rm -f $HOME/.gradle/caches/*/fileHashes/*.bin
+rm -vfr $HOME/.gradle/caches/*/plugin-resolution
+rm -vfr $HOME/.gradle/caches/*/workerMain/
+rm -vf $HOME/.gradle/caches/*/fileHashes/*.bin
 PATTERNS=(
     '*.lock'
     'buildSrc.jar'
@@ -11,5 +11,5 @@ PATTERNS=(
 )
 for PATTERN in ${PATTERNS[@]}
 do
-    find "${HOME}/.gradle/caches/" -name "${PATTERN}" -type f -delete
+    find "${HOME}/.gradle/caches/" -name "${PATTERN}" -type f -delete -print
 done
