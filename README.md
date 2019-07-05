@@ -33,6 +33,19 @@ env:
     # https://github.com/shyiko/jabba#usage
     - JDK="adopt@1.8.212-04"
     - JDK="amazon-corretto@1.8.212-04.2"
+before_install:
+  # Download the script
+  - curl "${GRAVIS}.install-jdk-travis.sh" --output .install-jdk-travis.sh
+  # Download, install, configue the JDK, and export the configuration to the current shell
+  - bash ~/.install-jdk-travis.sh && source ~/.jdk_config
+# This is your main script
+script:
+  # Just an example. Do what you deem useful
+  - ./gradlew clean check --scan --parallel
+# If you use Gradle, cleanup the build cache from lock/temporary files
+before_cache:
+  - curl "${GRAVIS}.clean_gradle_cache.sh" --output .clean_gradle_cache.sh
+  - bash .clean_gradle_cache.sh
 cache:
   directories:
     # Avoid re-downloading the JDK every time
@@ -40,21 +53,6 @@ cache:
     # If you use Gradle, you may want to save some time with caching
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
-before_install:
-  # Sets up the Java environment
-  - curl "${GRAVIS}.install-jdk-travis.sh" --output .install-jdk-travis.sh
-# This is *required*, Travis CI does not seem to keep exported variables
-before_script:
-  - bash .install-jdk-travis.sh
-#  - source ~/.jdk_config"
-# This is your main script
-script:
-  # Just an example. Do what you deem useful
-  - ./gradlew clean check --scan --parallel
-# Cleanup the build cache from lock/temporary files
-before_cache:
-  - curl "${GRAVIS}.clean_gradle_cache.sh" --output .clean_gradle_cache.sh
-  - bash .clean_gradle_cache.sh
 ```
 
 ## Contributing to the project
