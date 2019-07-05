@@ -4,9 +4,9 @@ install_jdk () {
         echo $JDK was available and Jabba is using it
     else
         echo installing $JDK
-        $jabba install "$JDK"
+        $jabba install "$JDK" || exit $?
         echo setting $JDK as Jabba default
-        $jabba use $JDK
+        $jabba use $JDK || exit $?
     fi
 }
 
