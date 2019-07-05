@@ -48,8 +48,8 @@ before_cache:
   - bash .clean_gradle_cache.sh
 cache:
   directories:
-    # Avoid re-downloading the JDK every time
-    - $HOME/.jabba/
+    # This avoids re-downloading the JDK every time, but Travis recommends not to do it
+    # - $HOME/.jabba/
     # If you use Gradle, you may want to save some time with caching
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
