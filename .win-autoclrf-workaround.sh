@@ -1,5 +1,5 @@
 #!/bin/bash
-if [ $TRAVIS_OS_NAME = "windows"]
+if [ $TRAVIS_OS_NAME = "windows" ]
 then
     echo working around bad Windows autoclrf setting on Travis
     git config --global core.autocrlf false
