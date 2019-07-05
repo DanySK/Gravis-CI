@@ -29,7 +29,7 @@ windows () {
     PowerShell -ExecutionPolicy Bypass -Command '[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; Invoke-Expression (Invoke-WebRequest https://github.com/shyiko/jabba/raw/master/install.ps1 -UseBasicParsing).Content'
     export jabba="$HOME/.jabba/bin/jabba.exe"
     # Windows is unable to clean child processes, so no Gradle daemon allowed
-    echo 'export GRADLE_OPTS="-Dorg.gradle.daemon=false"' >> ~/.windows_config
+    echo 'export GRADLE_OPTS="-Dorg.gradle.daemon=false $GRADLE_OPTS"' >> ~/.jdk_config
 }
 
 echo "running ${TRAVIS_OS_NAME}-specific configuration"
