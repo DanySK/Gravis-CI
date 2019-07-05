@@ -32,6 +32,7 @@ windows () {
     echo 'export GRADLE_OPTS="-Dorg.gradle.daemon=false $GRADLE_OPTS"' >> ~/.jdk_config
 }
 
+set -e
 echo "running ${TRAVIS_OS_NAME}-specific configuration"
 export JAVA_HOME="$HOME/.jabba/jdk/$JDK"
 $TRAVIS_OS_NAME
@@ -42,3 +43,4 @@ echo "export PATH=\"${PATH}\"" >> ~/.jdk_config
 install_jdk
 which java
 java -Xmx32m -version
+set +e
