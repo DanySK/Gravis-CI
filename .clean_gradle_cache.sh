@@ -9,6 +9,8 @@ PATTERNS=(
     'buildSrc.jar'
     'cache.properties'
     'file-access.bin'
+    'module-versions.bin'
+    'resource-at-url.bin'
     'user-id.txt'
 )
 for PATTERN in ${PATTERNS[@]}
