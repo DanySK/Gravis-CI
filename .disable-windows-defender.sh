@@ -3,9 +3,16 @@
 if [ $TRAVIS_OS_NAME = 'windows' ]
 then
   echo "This is an attempt at disabling Windows Defender. I'm not sure it works."
-  # powershell -ExecutionPolicy Bypass -Command "Start-Process powershell -Verb RunAs -ArgumentList '-ExecutionPolicy Bypass -Command \"Set-MpPreference -DisableRealtimeMonitoring \$true\"'"
-  powershell -ExecutionPolicy Bypass Set-MpPreference -DisableRealtimeMonitoring $true
-  powershell Add-MpPreference -ExclusionPath $HOME
-  powershell -ExecutionPolicy Bypass -Command 'Get-MpPreference > wd-status.log'
-  cat wd-status.log
+  export PROJECTDIR=$(pwd)
+  export TEMPDIR=$LOCALAPPDATA\\Temp
+  powershell Add-MpPreference -ExclusionPath ${PROJECTDIR}
+  powershell Add-MpPreference -ExclusionPath ${TEMPDIR}
+  powershell Add-MpPreference -ExclusionPath ${HOME}
+  echo "DisableArchiveScanning..."
+  powershell Start-Process -PassThru -Wait PowerShell -ArgumentList "'-Command Set-MpPreference -DisableArchiveScanning \$true'"
+  echo "DisableBehaviorMonitoring..."
+  powershell Start-Process -PassThru -Wait PowerShell -ArgumentList "'-Command Set-MpPreference -DisableBehaviorMonitoring \$true'"
+  echo "DisableRealtimeMonitoring..."
+  powershell Start-Process -PassThru -Wait PowerShell -ArgumentList "'-Command Set-MpPreference -DisableRealtimeMonitoring \$true'"
+  powershell -ExecutionPolicy Bypass Get-MpPreference
 fi
