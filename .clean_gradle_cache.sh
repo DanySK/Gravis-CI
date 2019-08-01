@@ -2,6 +2,7 @@
 rm -vfr $HOME/.gradle/caches/*/plugin-resolution
 rm -vfr $HOME/.gradle/caches/*/workerMain/
 rm -vfr $HOME/.gradle/caches/*/gradle-kotlin-dsl/*/cache/
+rm -vfr $HOME/.gradle/caches/*/gradle-kotlin-dsl-accessors/*/cache/
 rm -vf $HOME/.gradle/caches/*/fileHashes/*.bin
 PATTERNS=(
     '*.class'
