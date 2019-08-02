@@ -1,12 +1,12 @@
 #!/bin/bash
 install_jdk () {
-    if $jabba use $JDK; then
-        echo $JDK was available and Jabba is using it
+    if $jabba use $ACTUAL_JDK; then
+        echo $ACTUAL_JDK was available and Jabba is using it
     else
-        echo installing $JDK
-        $jabba install "$JDK" || exit $?
-        echo setting $JDK as Jabba default
-        $jabba use $JDK || exit $?
+        echo installing $ACTUAL_JDK
+        $jabba install "$ACTUAL_JDK" || exit $?
+        echo setting $ACTUAL_JDK as Jabba default
+        $jabba use $ACTUAL_JDK || exit $?
     fi
 }
 
@@ -22,7 +22,7 @@ linux () {
 
 osx () {
     unix_pre
-    export JAVA_HOME="$HOME/.jabba/jdk/$JDK/Contents/Home"
+    export JAVA_HOME="$HOME/.jabba/jdk/$ACTUAL_JDK/Contents/Home"
 }
 
 windows () {
@@ -35,13 +35,22 @@ windows () {
 
 set -e
 echo "running ${TRAVIS_OS_NAME}-specific configuration"
-export JAVA_HOME="$HOME/.jabba/jdk/$JDK"
-$TRAVIS_OS_NAME
-export PATH="$JAVA_HOME/bin:$PATH"
-# Apparently exported variables are ignored in subseguent phases on Windows. Write in config file
-echo "export JAVA_HOME=\"${JAVA_HOME}\"" >> ~/.jdk_config
-echo "export PATH=\"${PATH}\"" >> ~/.jdk_config
-install_jdk
-which java
-java -Xmx32m -version
-set +e
+echo "Computing best match for required JDK version: $JDK"
+ACTUAL_JDK=$(jabba ls-remote | grep -m1 $JDK)
+if [ -z $ACTUAL_JDK ]
+then
+    echo "No JDK version is compatible with $JDK. Available JDKs are:"
+    jabba ls-remote
+else
+    echo "Best match is $ACTUAL_JDK"
+    export JAVA_HOME="$HOME/.jabba/jdk/$ACTUAL_JDK"
+    $TRAVIS_OS_NAME
+    export PATH="$JAVA_HOME/bin:$PATH"
+    # Apparently exported variables are ignored in subseguent phases on Windows. Write in config file
+    echo "export JAVA_HOME=\"${JAVA_HOME}\"" >> ~/.jdk_config
+    echo "export PATH=\"${PATH}\"" >> ~/.jdk_config
+    install_jdk
+    which java
+    java -Xmx32m -version
+    set +e
+fi
