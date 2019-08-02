@@ -52,7 +52,7 @@ then
 fi
 echo "running ${TRAVIS_OS_NAME}-specific configuration"
 echo "installing Jabba"
-#install_jabba_on_$TRAVIS_OS_NAME
+install_jabba_on_$TRAVIS_OS_NAME
 echo "Computing best match for required JDK version: $JDK"
 ACTUAL_JDK="$(echo $("$jabba" ls-remote | grep -m1 $JDK))"
 echo "Selected JDK: $ACTUAL_JDK"
