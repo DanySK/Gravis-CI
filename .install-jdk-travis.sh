@@ -31,7 +31,7 @@ install_jabba_on_windows () {
 }
 
 complete_installation_on_linux () {
-    :
+    echo 
 }
 
 complete_installation_on_osx () {
