@@ -16,18 +16,28 @@ unix_pre () {
     export jabba=jabba
 }
 
-linux () {
+install_jabba_on_linux () {
     unix_pre
 }
 
-osx () {
+install_jabba_on_osx () {
     unix_pre
     export JAVA_HOME="$HOME/.jabba/jdk/$ACTUAL_JDK/Contents/Home"
 }
 
-windows () {
+install_jabba_on_windows () {
     PowerShell -ExecutionPolicy Bypass -Command '[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; Invoke-Expression (Invoke-WebRequest https://github.com/shyiko/jabba/raw/master/install.ps1 -UseBasicParsing).Content'
     export jabba="$HOME/.jabba/bin/jabba.exe"
+}
+
+complete_installation_on_linux () {
+}
+
+complete_installation_on_osx () {
+    export JAVA_HOME="$HOME/.jabba/jdk/$ACTUAL_JDK/Contents/Home"
+}
+
+complete_installation_on_windows () {
     # Windows is unable to clean child processes, so no Gradle daemon allowed
     export GRADLE_OPTS="-Dorg.gradle.daemon=false $GRADLE_OPTS"
     echo 'export GRADLE_OPTS="-Dorg.gradle.daemon=false $GRADLE_OPTS"' >> ~/.jdk_config
@@ -35,6 +45,8 @@ windows () {
 
 set -e
 echo "running ${TRAVIS_OS_NAME}-specific configuration"
+echo "installing Jabba"
+install_jabba_on_$TRAVIS_OS_NAME
 echo "Computing best match for required JDK version: $JDK"
 ACTUAL_JDK=$(jabba ls-remote | grep -m1 $JDK)
 if [ -z $ACTUAL_JDK ]
@@ -44,7 +56,7 @@ then
 else
     echo "Best match is $ACTUAL_JDK"
     export JAVA_HOME="$HOME/.jabba/jdk/$ACTUAL_JDK"
-    $TRAVIS_OS_NAME
+    complete_installation_on_$TRAVIS_OS_NAME
     export PATH="$JAVA_HOME/bin:$PATH"
     # Apparently exported variables are ignored in subseguent phases on Windows. Write in config file
     echo "export JAVA_HOME=\"${JAVA_HOME}\"" >> ~/.jdk_config
