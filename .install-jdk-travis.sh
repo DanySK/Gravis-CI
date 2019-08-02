@@ -45,15 +45,22 @@ complete_installation_on_windows () {
 }
 
 set -e
+if [ -z $JDK ]
+then
+    echo "No JDK variable provided."
+    exit 1
+fi
 echo "running ${TRAVIS_OS_NAME}-specific configuration"
 echo "installing Jabba"
-install_jabba_on_$TRAVIS_OS_NAME
+#install_jabba_on_$TRAVIS_OS_NAME
 echo "Computing best match for required JDK version: $JDK"
-ACTUAL_JDK=$(jabba ls-remote | grep -m1 $JDK)
+ACTUAL_JDK="$(echo $("$jabba" ls-remote | grep -m1 $JDK))"
+echo "Selected JDK: $ACTUAL_JDK"
 if [ -z $ACTUAL_JDK ]
 then
     echo "No JDK version is compatible with $JDK. Available JDKs are:"
-    jabba ls-remote
+    "$jabba" ls-remote
+    exit 2
 else
     echo "Best match is $ACTUAL_JDK"
     export JAVA_HOME="$HOME/.jabba/jdk/$ACTUAL_JDK"
