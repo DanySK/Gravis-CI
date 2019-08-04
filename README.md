@@ -37,7 +37,7 @@ before_install:
   # Download the script
   - curl "${GRAVIS}.install-jdk-travis.sh" --output .install-jdk-travis.sh
   # Download, install, configue the JDK, and export the configuration to the current shell
-  - source ~/.install-jdk-travis.sh
+  - source .install-jdk-travis.sh
 # This is your main script
 script:
   # Just an example. Do what you deem useful
