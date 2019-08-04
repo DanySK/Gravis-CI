@@ -33,6 +33,11 @@ env:
     # https://github.com/shyiko/jabba#usage
     - JDK="adopt@1.8.212-04"
     - JDK="amazon-corretto@1.8.212-04.2"
+    # Partial versions are allowed. They are dynamically resoved by launching jabba ls-remote,
+    # filtering for the provided JDK string, then picking the *first* match. This is useful if
+    # the intent is to target the latest release of some Java major release, or if the latest
+    # available build differs among platforms.
+    - JDK="adopt-openj9@1.11"
 before_install:
   # Download the script
   - curl "${GRAVIS}.install-jdk-travis.sh" --output ~/.install-jdk-travis.sh
