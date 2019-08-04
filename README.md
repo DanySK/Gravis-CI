@@ -35,17 +35,17 @@ env:
     - JDK="amazon-corretto@1.8.212-04.2"
 before_install:
   # Download the script
-  - curl "${GRAVIS}.install-jdk-travis.sh" --output .install-jdk-travis.sh
+  - curl "${GRAVIS}.install-jdk-travis.sh" --output ~/.install-jdk-travis.sh
   # Download, install, configue the JDK, and export the configuration to the current shell
-  - source .install-jdk-travis.sh
+  - source ~/.install-jdk-travis.sh
 # This is your main script
 script:
   # Just an example. Do what you deem useful
   - ./gradlew clean check --scan --parallel
 # If you use Gradle, cleanup the build cache from lock/temporary files
 before_cache:
-  - curl "${GRAVIS}.clean_gradle_cache.sh" --output .clean_gradle_cache.sh
-  - bash .clean_gradle_cache.sh
+  - curl "${GRAVIS}.clean_gradle_cache.sh" --output ~/.clean_gradle_cache.sh
+  - bash ~/.clean_gradle_cache.sh
 cache:
   directories:
     # This avoids re-downloading the JDK every time, but Travis recommends not to do it
