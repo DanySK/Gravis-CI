@@ -11,9 +11,9 @@ WIN_FOLDER=$(echo "$CACHED_BUILD_FOLDER" | sed "s:$TO_REPLACE*:$WIN_HOME:")
 echo destination copy folder for Windows: $WIN_FOLDER
 OSX_FOLDER=$(echo "$CACHED_BUILD_FOLDER" | sed "s:$TO_REPLACE*:$OSX_HOME:")
 echo destination copy folder for OSX $OSX_FOLDER
-- sudo mkdir -p $WIN_FOLDER
-- sudo mkdir -p $OSX_FOLDER
-- sudo chown $USER $WIN_FOLDER
-- sudo chown $USER $OSX_FOLDER
-- cp -R "$CACHED_BUILD_FOLDER"/* $WIN_FOLDER
-- cp -R "$CACHED_BUILD_FOLDER"/* $OSX_FOLDER
+sudo mkdir -p $WIN_FOLDER
+sudo mkdir -p $OSX_FOLDER
+sudo chown $USER $WIN_FOLDER
+sudo chown $USER $OSX_FOLDER
+cp -R "$CACHED_BUILD_FOLDER"/* $WIN_FOLDER
+cp -R "$CACHED_BUILD_FOLDER"/* $OSX_FOLDER
