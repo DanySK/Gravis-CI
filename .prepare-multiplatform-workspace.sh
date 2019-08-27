@@ -1,12 +1,13 @@
 #!/bin/bash
-$CACHED_BUILD_FOLDER=${1:$TRAVIS_BUILD_DIR/build}
+
+$CACHED_BUILD_FOLDER=${1:-$TRAVIS_BUILD_DIR/build}
 echo "saving data of $CACHED_BUILD_FOLDER"
 # Prepare replacement
 export TOREPLACE=$(echo $HOME | sed "s:/:\\\\/:g")
 echo $TO_REPLACE
 # Prepare workspace for Windows
-WIN_HOME=/c/Users/$USER
-OSX_HOME=/Users/$USER
+WIN_HOME="/c/Users/$USER"
+OSX_HOME="/Users/$USER"
 WIN_FOLDER=$(echo "$CACHED_BUILD_FOLDER" | sed "s:$TO_REPLACE*:$WIN_HOME:")
 echo destination copy folder for Windows: $WIN_FOLDER
 OSX_FOLDER=$(echo "$CACHED_BUILD_FOLDER" | sed "s:$TO_REPLACE*:$OSX_HOME:")
