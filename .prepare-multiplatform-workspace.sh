@@ -4,7 +4,7 @@ ls -ahl
 $CACHED_BUILD_FOLDER=${1:-$TRAVIS_BUILD_DIR/build}
 echo "saving data of $CACHED_BUILD_FOLDER"
 # Prepare replacement
-export TOREPLACE=$(echo $HOME | sed "s:/:\\\\/:g")
+TO_REPLACE=$(echo $HOME | sed "s:/:\\\\/:g")
 echo $TO_REPLACE
 # Prepare workspace for Windows
 WIN_HOME="/c/Users/$USER"
