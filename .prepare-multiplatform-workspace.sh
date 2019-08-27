@@ -1,5 +1,6 @@
 #!/bin/bash
-
+pwd
+ll
 $CACHED_BUILD_FOLDER=${1:-$TRAVIS_BUILD_DIR/build}
 echo "saving data of $CACHED_BUILD_FOLDER"
 # Prepare replacement
