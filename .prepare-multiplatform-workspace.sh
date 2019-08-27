@@ -1,7 +1,7 @@
 #!/bin/bash
 pwd
 ls -ahl
-$CACHED_BUILD_FOLDER=${1:-$TRAVIS_BUILD_DIR/build}
+CACHED_BUILD_FOLDER=${1:-$TRAVIS_BUILD_DIR/build}
 echo "saving data of $CACHED_BUILD_FOLDER"
 # Prepare replacement
 TO_REPLACE=$(echo $HOME | sed "s:/:\\\\/:g")
