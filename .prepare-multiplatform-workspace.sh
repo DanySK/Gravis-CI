@@ -1,12 +1,9 @@
 #!/bin/bash
-pwd
-ls -ahl
 CACHED_BUILD_FOLDER=${1:-$TRAVIS_BUILD_DIR/build}
 echo "saving data of $CACHED_BUILD_FOLDER"
 # Prepare replacement
 TO_REPLACE=$(echo $HOME | sed "s:/:\\\\/:g")
-echo $TO_REPLACE
-# Prepare workspace for Windows
+# Prepare workspace for Windows and OSX
 WIN_HOME="/c/Users/$USER"
 OSX_HOME="/Users/$USER"
 WIN_FOLDER=$(echo "$CACHED_BUILD_FOLDER" | sed "s:$TO_REPLACE*:$WIN_HOME:")
