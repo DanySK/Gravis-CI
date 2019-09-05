@@ -25,6 +25,7 @@ os:
   - osx
   - windows
 env:
+  global:
     # This is a convenience variable for shortening download commands
     - GRAVIS="https://raw.githubusercontent.com/DanySK/Gravis-CI/master/"
     # If you use Windows, you may want to disable Windows Defender. It slows down the builds
