@@ -14,7 +14,7 @@ env:
 script:
   - curl "${GRAVIS}.install-jdk-travis.sh" --output ~/.install-jdk-travis.sh
   - source ~/.install-jdk-travis.sh
-  - curl "${GRAVIS}.install-maven.sh" --output .install-maven.sh
+  - curl "${GRAVIS}.install-maven.sh" --output ~/.install-maven.sh
   - ls -ahl
   - source ~/.install-maven.sh
   
