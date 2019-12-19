@@ -1,0 +1,19 @@
+language: bash
+os:
+  - linux
+  - osx
+  - windows
+env:
+  global:
+    - GRAVIS="https://raw.githubusercontent.com/DanySK/Gravis-CI/master/"
+  matrix:
+    - JDK="adopt"
+    - JDK="adopt@1.8"
+    - JDK="adopt-openj9"
+    - JDK="amazon-corretto"
+script:
+  - curl "${GRAVIS}.install-jdk-travis.sh" --output ~/.install-jdk-travis.sh
+  - source ~/.install-jdk-travis.sh
+  - curl "${GRAVIS}.install-maven.sh" --output .install-maven.sh
+  - source ~/.install-maven.sh
+  
