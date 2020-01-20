@@ -10,7 +10,7 @@ env:
     - JDK="adopt"
     - JDK="adopt@1.8"
     - JDK="adopt-openj9"
-    - JDK="amazon-corretto"
+#    - JDK="amazon-corretto"
 script:
   - curl "${GRAVIS}.install-jdk-travis.sh" --output ~/.install-jdk-travis.sh
   - source ~/.install-jdk-travis.sh
