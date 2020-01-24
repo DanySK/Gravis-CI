@@ -8,7 +8,12 @@ PYTHON="${PYTHON:-$LATEST_PYTHON_STABLE}"
 echo "Python version selected: $PYTHON. Installing..."
 pyenv install --skip-existing $PYTHON
 echo "...running MacOS X fix..."
+echo "Setting PYENV_ROOT to $HOME/.pyenv"
+export PYENV_ROOT="$HOME/.pyenv"
+echo "PYENV_ROOT is now $PYENV_ROOT"
+echo "Appending PYENV_ROOT in front of PATH"
 export PATH="$HOME/.pyenv:$PATH"
+echo "PATH is now $PATH"
 eval "$(pyenv init -)"
 echo "...done. Setting global to ${PYTHON}..."
 pyenv global $PYTHON
