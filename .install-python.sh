@@ -10,6 +10,7 @@ echo "Adding PYENV_ROOT to PATH in ~/.bash_profile"
 echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bash_profile
 echo 'Adding eval "$(pyenv init -)"\ to ~/.bash_profile'
 echo -e 'if command -v pyenv 1>/dev/null 2>&1; then\n  eval "$(pyenv init -)"\nfi' >> ~/.bash_profile
+echo "sourcing ~/.bash_profile"
 source ~/.bash_profile
 echo "PYENV_ROOT is now $PYENV_ROOT"
 echo "PATH is now $PATH"
