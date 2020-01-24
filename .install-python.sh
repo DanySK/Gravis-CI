@@ -3,11 +3,12 @@
 # The PYTHON environment variable must be set to the desired Python version, or the latest stable will be used
 set -e
 echo "Running pyenv post-install fix"
-echo "Setting PYENV_ROOT to $HOME/.pyenv"
-export PYENV_ROOT="$HOME/.pyenv"
+echo "Setting PYENV_ROOT to $HOME/.pyenv if it is undefined"
+echo "PYENV_ROOT is now $PYENV_ROOT"
+export PYENV_ROOT=${PYENV_ROOT:-"$HOME/.pyenv"}
 echo "PYENV_ROOT is now $PYENV_ROOT"
 echo "Appending PYENV_ROOT in front of PATH"
-export PATH="$HOME/.pyenv:$PATH"
+export PATH="$PYENV_ROOT:$PATH"
 echo "PATH is now $PATH"
 echo "Initialize pyenv shims"
 eval "$(pyenv init -)"
