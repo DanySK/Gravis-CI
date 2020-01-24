@@ -8,5 +8,8 @@ PYTHON="${PYTHON:-$LATEST_PYTHON_STABLE}"
 echo "Python version selected: $PYTHON"
 echo "Installing Python $PYTHON..."
 pyenv install --skip-existing $PYTHON
-echo "...done."
+echo "...done. Setting global to ${PYTHON}..."
+pyenv global $PYTHON
+echo "...done. Checking version."
+python --version
 set +e
