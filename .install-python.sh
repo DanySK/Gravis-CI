@@ -8,7 +8,5 @@ PYTHON="${PYTHON:-$LATEST_PYTHON_STABLE}"
 echo "Python version selected: $PYTHON"
 echo "Installing Python $PYTHON..."
 pyenv install --skip-existing $PYTHON
-echo "...installation completed. Setting local version to $PYTHON..." 
-pyenv local $PYTHON
 echo "...done."
 set +e
