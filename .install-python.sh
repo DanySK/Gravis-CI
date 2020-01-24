@@ -20,9 +20,10 @@ PYTHON="${PYTHON:-$LATEST_PYTHON_STABLE}"
 echo "Python version selected: $PYTHON. Installing..."
 pyenv install --skip-existing $PYTHON
 pyenv versions
-echo "...done. Setting global to ${PYTHON}..."
+echo "Setting global to ${PYTHON}..."
 pyenv global $PYTHON
 echo "...done. Checking version."
+pyenv versions
 echo "python -V: $(python -V)"
 echo "pip -V: $(pip -V)"
 echo "Python is set to $(which python)"
