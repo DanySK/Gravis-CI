@@ -17,4 +17,8 @@ script:
   - curl "${GRAVIS}.install-maven.sh" --output ~/.install-maven.sh
   - ls -ahl
   - source ~/.install-maven.sh
-  
+notifications:
+  email:
+    if: branch = master
+    on_success: never
+    on_failure: change
