@@ -4,11 +4,12 @@
 set -e
 echo "Running pyenv post-install fix"
 echo "Setting PYENV_ROOT to $HOME/.pyenv if it is undefined"
+# From pyenv suggested installation, as homebrew does not seem to complete the installation correctly
+echo 'export PYENV_ROOT="${PYENV_ROOT:-$HOME/.pyenv}"' >> ~/.bash_profile
+echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bash_profile
+echo -e 'if command -v pyenv 1>/dev/null 2>&1; then\n  eval "$(pyenv init -)"\nfi' >> ~/.bash_profile
+source ~/.bash_profile
 echo "PYENV_ROOT is now $PYENV_ROOT"
-export PYENV_ROOT=${PYENV_ROOT:-"$HOME/.pyenv"}
-echo "PYENV_ROOT is now $PYENV_ROOT"
-echo "Appending PYENV_ROOT in front of PATH"
-export PATH="$PYENV_ROOT:$PATH"
 echo "PATH is now $PATH"
 echo "Initialize pyenv shims"
 eval "$(pyenv init -)"
