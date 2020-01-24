@@ -13,5 +13,8 @@ eval "$(pyenv init -)"
 echo "...done. Setting global to ${PYTHON}..."
 pyenv global $PYTHON
 echo "...done. Checking version."
-python --version
+echo "python -V: $(python -V)"
+echo "pip -V: $(pip -V)"
+echo "Python is set to $(which python)"
+echo "pip is set to $(which pip)"
 set +e
