@@ -3,10 +3,12 @@
 # The PYTHON environment variable must be set to the desired Python version, or the latest stable will be used
 set -e
 echo "Running pyenv post-install fix"
-echo "Setting PYENV_ROOT to $HOME/.pyenv if it is undefined"
+echo "Configuring ~/.bash_profile to set PYENV_ROOT to $HOME/.pyenv if undefined"
 # From pyenv suggested installation, as homebrew does not seem to complete the installation correctly
 echo 'export PYENV_ROOT="${PYENV_ROOT:-$HOME/.pyenv}"' >> ~/.bash_profile
+echo "Adding PYENV_ROOT to PATH in ~/.bash_profile"
 echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bash_profile
+echo 'Adding eval "$(pyenv init -)"\ to ~/.bash_profile'
 echo -e 'if command -v pyenv 1>/dev/null 2>&1; then\n  eval "$(pyenv init -)"\nfi' >> ~/.bash_profile
 source ~/.bash_profile
 echo "PYENV_ROOT is now $PYENV_ROOT"
