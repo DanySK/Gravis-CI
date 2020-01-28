@@ -52,7 +52,7 @@ then
 fi
 echo "running ${TRAVIS_OS_NAME}-specific configuration"
 echo "installing Jabba"
-install_jabba_on_$TRAVIS_OS_NAME
+travis_retry install_jabba_on_$TRAVIS_OS_NAME
 echo "Computing best match for required JDK version: $JDK"
 ACTUAL_JDK="$(echo $($jabba ls-remote | grep -m1 $JDK))"
 echo "Selected JDK: $ACTUAL_JDK"
@@ -69,7 +69,7 @@ else
     # Apparently exported variables are ignored in subseguent phases on Windows. Write in config file
     echo "export JAVA_HOME=\"${JAVA_HOME}\"" >> ~/.jdk_config
     echo "export PATH=\"${PATH}\"" >> ~/.jdk_config
-    install_jdk
+    travis_retry install_jdk
     which java
     java -Xmx32m -version
     set +e
