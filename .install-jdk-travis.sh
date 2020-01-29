@@ -44,6 +44,8 @@ complete_installation_on_windows () {
     echo 'export GRADLE_OPTS="-Dorg.gradle.daemon=false $GRADLE_OPTS"' >> ~/.jdk_config
 }
 
+retry() { eval "$*" || (eval "$*" || eval "$*"); }
+
 set -e
 if [ -z $JDK ]
 then
@@ -52,7 +54,7 @@ then
 fi
 echo "running ${TRAVIS_OS_NAME}-specific configuration"
 echo "installing Jabba"
-install_jabba_on_$TRAVIS_OS_NAME
+retry install_jabba_on_$TRAVIS_OS_NAME
 echo "Computing best match for required JDK version: $JDK"
 ACTUAL_JDK="$(echo $($jabba ls-remote | grep -m1 $JDK))"
 echo "Selected JDK: $ACTUAL_JDK"
@@ -69,7 +71,7 @@ else
     # Apparently exported variables are ignored in subseguent phases on Windows. Write in config file
     echo "export JAVA_HOME=\"${JAVA_HOME}\"" >> ~/.jdk_config
     echo "export PATH=\"${PATH}\"" >> ~/.jdk_config
-    install_jdk
+    retry install_jdk
     which java
     java -Xmx32m -version
     set +e
