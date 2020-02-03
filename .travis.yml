@@ -6,7 +6,7 @@ os:
 env:
   global:
     - GRAVIS_REPO="https://github.com/DanySK/Gravis-CI.git"
-    - GRAVIS="$HOME/gravis/"
+    - GRAVIS="$HOME/gravis"
   matrix:
     - JDK="adopt"
     #- JDK="adopt@1.8"
