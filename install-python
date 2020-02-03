@@ -7,8 +7,8 @@ if [ $TRAVIS_OS_NAME = "windows" ]
 then
     echo "Installing pyenv-win"
     git clone --depth=1 https://github.com/pyenv-win/pyenv-win.git $PYENV_ROOT
-    ls $PYENV_ROOT
-    ls $PYENV_ROOT/bin
+    ls -ahl $PYENV_ROOT
+    ls -ahl $PYENV_ROOT/bin
 else
     echo "Installing pyenv"
     git clone --depth=1 https://github.com/pyenv/pyenv.git $PYENV_ROOT
