@@ -1,4 +1,4 @@
-language: bash
+language: minimal
 os:
   - linux
   - osx

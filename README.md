@@ -4,12 +4,15 @@ As @sormuras [pointed out](https://travis-ci.community/t/install-jdk-sh-failing-
 The consequences are low reliability for Java builds, which defeat the point of having the continuous integration in place. Plus, currently Java is not supported under Windows.
 
 Time to end this.
-This project is meant to provide a number of script to be used in Java builds on Travis CI for running Java.
-The project is focused on Gradle, as it's my favourite tool, but could be of use for Maven, Ant, and SBT users as well.
-
-We rely on [Jabba](https://github.com/shyiko/jabba) to install the JDK, kudos to them!
+This project is meant to provide a number of script to be used on Travis CI for simpolifying machine configuration from a minimal or bare image.
+The project is focused on Java and Gradle, as it's the tool I use most often,
+but with time is expanding to help installing other software.
 
 ## Usage
+
+### Installing the JDK
+
+We rely on [Jabba](https://github.com/shyiko/jabba) to install the JDK, kudos to them!
 
 Base idea: download the scripts from GitHub and run them.
 Here is the relevant part of your `.travis.yml`.
