@@ -6,19 +6,17 @@ os:
 env:
   global:
     - GRAVIS_REPO="https://github.com/DanySK/Gravis-CI.git"
-    - GRAVIS_LOCAL="$HOME/gravis"
+    - GRAVIS="$HOME/gravis/"
   matrix:
     - JDK="adopt"
     - JDK="adopt@1.8"
     - JDK="adopt-openj9"
 #    - JDK="amazon-corretto"
 before_install:
-  - travis_retry git clone $GRAVIS_REPO $GRAVIS_LOCAL
-  - export PATH="$GRAVIS_LOCAL:$PATH"
-  - echo $PATH
+  - travis_retry git clone $GRAVIS_REPO $GRAVIS
 script:
-  - travis_retry install-jdk
-  - travis_retry install-maven
+  - travis_retry source $GRAVIS/install-jdk
+  - travis_retry source $GRAVIS/install-maven
 notifications:
   email:
     if: branch = master
