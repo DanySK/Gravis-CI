@@ -1,4 +1,4 @@
-#!/bin/bash
+# !/bin/echo This script needs to be sourced, not executed!
 # This script requires pyenv to be setup.
 # The PYTHON environment variable must be set to the desired Python version, or the latest stable will be used
 set -e
