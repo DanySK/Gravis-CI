@@ -2,21 +2,23 @@
 # This script requires pyenv to be setup.
 # The PYTHON environment variable must be set to the desired Python version, or the latest stable will be used
 set -e
-export PYENV_ROOT="$HOME/.pyenv"
 if [ $TRAVIS_OS_NAME = "windows" ]
 then
     echo "Installing pyenv-win"
-    git clone --depth=1 https://github.com/pyenv-win/pyenv-win.git $PYENV_ROOT
+    PYENV="$HOME/.pyenv"
+    git clone --depth=1 https://github.com/pyenv-win/pyenv-win.git $PYENV
+    export PYENV_ROOT="$HOME/.pyenv/pyenv-win"
     ls -ahl $PYENV_ROOT
     ls -ahl $PYENV_ROOT/bin
 else
     echo "Installing pyenv"
+    export PYENV_ROOT="$HOME/.pyenv"
     git clone --depth=1 https://github.com/pyenv/pyenv.git $PYENV_ROOT
 fi
 export PATH="$PYENV_ROOT/bin:$PYENV_ROOT/shims:$PATH"
 eval "$(pyenv init -)"
 echo Testing pyenv
-pyenv commands
+pyenv commands || exit 1
 echo "Done with pyenv. Now installing Python."
 LATEST_PYTHON_STABLE=$(pyenv install -l | awk '{$1=$1};1' | sort -r | grep -E '^([0-9]*\.)*[0-9]*$' -m 1)
 echo "The latest version available on pyenv is $LATEST_PYTHON_STABLE"
