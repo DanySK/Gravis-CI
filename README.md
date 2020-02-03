@@ -28,10 +28,6 @@ env:
   global:
     # This is a convenience variable for shortening download commands
     - GRAVIS="https://raw.githubusercontent.com/DanySK/Gravis-CI/master/"
-    # If you use Windows, you may want to disable Windows Defender. It slows down the builds
-    # dramatically, also during cache setup. From a Tanzinul Islam's idea: http://bit.ly/348VPYS,
-    # This work around disables it before caching
-    - NO_WIN_DEFENDER=$(curl "${GRAVIS}.disable-windows-defender.sh" --output .no-defender.sh && source .no-defender.sh)
   matrix:
     # List any JDK you want to build your software with.
     # You can see the list of supported environments by installing Jabba and using ls-remote:
