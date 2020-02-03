@@ -1,7 +1,7 @@
 language: minimal
 os:
-  - linux
-  - osx
+#  - linux
+#  - osx
   - windows
 env:
   global:
@@ -9,8 +9,8 @@ env:
     - GRAVIS="$HOME/gravis/"
   matrix:
     - JDK="adopt"
-    - JDK="adopt@1.8"
-    - JDK="adopt-openj9"
+    #- JDK="adopt@1.8"
+    #- JDK="adopt-openj9"
 #    - JDK="amazon-corretto"
 before_install:
   - travis_retry git clone $GRAVIS_REPO $GRAVIS
