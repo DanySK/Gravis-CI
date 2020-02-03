@@ -15,8 +15,8 @@ env:
 before_install:
   - export PATH="$GRAVIS:$PATH"
 script:
-  - install-jdk-travis.sh
-  - install-maven.sh
+  - install-jdk
+  - install-maven
 notifications:
   email:
     if: branch = master
