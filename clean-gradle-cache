@@ -1,0 +1,20 @@
+#!/bin/bash
+rm -vfr $HOME/.gradle/caches/*/plugin-resolution
+rm -vfr $HOME/.gradle/caches/*/workerMain/
+rm -vfr $HOME/.gradle/caches/*/gradle-kotlin-dsl/*/cache/
+rm -vfr $HOME/.gradle/caches/*/gradle-kotlin-dsl-accessors/*/cache/
+rm -vf $HOME/.gradle/caches/*/fileHashes/*.bin
+PATTERNS=(
+    '*.class'
+    '*.lock'
+    'buildSrc.jar'
+    'cache.properties'
+    'file-access.bin'
+    'module-versions.bin'
+    'resource-at-url.bin'
+    'user-id.txt'
+)
+for PATTERN in ${PATTERNS[@]}
+do
+    find "${HOME}/.gradle/caches/" -name "${PATTERN}" -type f -delete -print
+done

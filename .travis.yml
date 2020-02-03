@@ -17,6 +17,7 @@ before_install:
 script:
   - travis_retry source $GRAVIS/install-jdk
   - travis_retry source $GRAVIS/install-maven
+  - $GRAVIS/clean-gradle-cache
 notifications:
   email:
     if: branch = master
