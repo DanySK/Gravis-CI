@@ -13,7 +13,9 @@ env:
     - JDK="adopt-openj9"
 #    - JDK="amazon-corretto"
 before_install:
+  - travis_retry git clone $GRAVIS_REPO $GRAVIS
   - export PATH="$GRAVIS:$PATH"
+  - echo $PATH
 script:
   - install-jdk
   - install-maven
