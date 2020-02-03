@@ -2,7 +2,7 @@
 # This script requires pyenv to be setup.
 # The PYTHON environment variable must be set to the desired Python version, or the latest stable will be used
 set -e
-export PYENV_ROOT="$HOME/.pyenv/"
+export PYENV_ROOT="$HOME/.pyenv"
 if [ $TRAVIS_OS_NAME = "windows" ]
 then
     echo "Installing pyenv-win"
