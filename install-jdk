@@ -1,19 +1,18 @@
 #!/bin/echo This script needs to be sourced, not executed!
 install_jdk () {
-    if $jabba use $ACTUAL_JDK; then
+    if jabba use $ACTUAL_JDK; then
         echo $ACTUAL_JDK was available and Jabba is using it
     else
         echo installing $ACTUAL_JDK
-        $jabba install "$ACTUAL_JDK" || exit $?
+        jabba install "$ACTUAL_JDK" || exit $?
         echo setting $ACTUAL_JDK as Jabba default
-        $jabba use $ACTUAL_JDK || exit $?
+        jabba use $ACTUAL_JDK || exit $?
     fi
 }
 
 unix_pre () {
     curl -sL https://github.com/shyiko/jabba/raw/master/install.sh | bash && . ~/.jabba/jabba.sh
     unset _JAVA_OPTIONS
-    export jabba=jabba
 }
 
 install_jabba_on_linux () {
@@ -27,7 +26,7 @@ install_jabba_on_osx () {
 
 install_jabba_on_windows () {
     PowerShell -ExecutionPolicy Bypass -Command '[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; Invoke-Expression (Invoke-WebRequest https://github.com/shyiko/jabba/raw/master/install.ps1 -UseBasicParsing).Content'
-    export jabba="$HOME/.jabba/bin/jabba.exe"
+    export PATH="$HOME/.jabba/bin/:$PATH"
 }
 
 complete_installation_on_linux () {
@@ -56,12 +55,12 @@ echo "running ${TRAVIS_OS_NAME}-specific configuration"
 echo "installing Jabba"
 retry install_jabba_on_$TRAVIS_OS_NAME
 echo "Computing best match for required JDK version: $JDK"
-ACTUAL_JDK="$(echo $($jabba ls-remote | grep -m1 $JDK))"
+ACTUAL_JDK="$(echo $(jabba ls-remote | grep -m1 $JDK))"
 echo "Selected JDK: $ACTUAL_JDK"
 if [ -z $ACTUAL_JDK ]
 then
     echo "No JDK version is compatible with $JDK. Available JDKs are:"
-    "$jabba" ls-remote
+    jabba ls-remote
     exit 2
 else
     echo "Best match is $ACTUAL_JDK"
