@@ -40,7 +40,6 @@ jobs:
     - <<: *python_job
       env: PYTHON="3.6.1"
       os: windows
-  include:
     - <<: *maven_job
     - <<: *maven_job
       env: MAVEN_VERSION="3.6.1"
@@ -54,10 +53,6 @@ jobs:
     - <<: *maven_job
       env: MAVEN_VERSION="3.6.1"
       os: windows
-stages:
-  - test
-  - python
-  - maven
 before_install:
   - travis_retry git clone --depth 1 $GRAVIS_REPO $GRAVIS
 script:
