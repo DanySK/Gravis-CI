@@ -4,6 +4,10 @@ _python_job: &python_job
   stage: python
   script: source $GRAVIS/install-python
 
+_maven_job: &maven_job
+  stage: maven
+  script: source $GRAVIS/install-maven
+
 if: NOT commit_message =~ /\[\s*SKIP(_|-|\s*)BUILD.*\].*/
 language: minimal
 os:
@@ -36,12 +40,26 @@ jobs:
     - <<: *python_job
       env: PYTHON="3.6.1"
       os: windows
+  include:
+    - <<: *maven_job
+    - <<: *maven_job
+      env: MAVEN_VERSION="3.6.1"
+    - <<: *maven_job
+      os: osx
+    - <<: *maven_job
+      env: MAVEN_VERSION="3.6.1"
+      os: osx
+    - <<: *maven_job
+      os: windows
+    - <<: *maven_job
+      env: MAVEN_VERSION="3.6.1"
+      os: windows
+
 before_install:
   - travis_retry git clone --depth 1 $GRAVIS_REPO $GRAVIS
 script:
   # Never use travis_retry: hides failures. travis_retry is used internally where possible.
   - source $GRAVIS/install-jdk
-  - source $GRAVIS/install-maven
 before_cache:
   - $GRAVIS/clean-gradle-cache
 notifications:
