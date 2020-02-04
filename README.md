@@ -21,7 +21,7 @@ Code comments contain relevant details, please read them.
 ```yaml
 # Java is not yet supported on Windows, so the build would block.
 # You do not need any setup from Travis, use a plain bash build
-language: bash
+language: minimal
 # Enable them all, if you need them.
 os:
   - linux
@@ -29,8 +29,9 @@ os:
   - windows
 env:
   global:
-    # This is a convenience variable for shortening download commands
-    - GRAVIS="https://raw.githubusercontent.com/DanySK/Gravis-CI/master/"
+    # Convenience variables for shortening commands
+    - GRAVIS_REPO="https://github.com/DanySK/Gravis-CI.git"
+    - GRAVIS="$HOME/gravis"
   matrix:
     # List any JDK you want to build your software with.
     # You can see the list of supported environments by installing Jabba and using ls-remote:
@@ -42,23 +43,36 @@ env:
     # available build differs among platforms.
     - JDK="adopt-openj9@1.11"
 before_install:
-  # Download the script
-  - curl "${GRAVIS}.install-jdk-travis.sh" --output ~/.install-jdk-travis.sh
-  # Download, install, configue the JDK, and export the configuration to the current shell
-  - source ~/.install-jdk-travis.sh
-# This is your main script
-script:
-  # Just an example. Do what you deem useful
-  - ./gradlew clean check --scan --parallel
-# If you use Gradle, cleanup the build cache from lock/temporary files
+  # Check out the script set
+  - travis_retry git clone --depth 1 $GRAVIS_REPO $GRAVIS
+  # Install the JDK you configured in the $JDK environment variable
+  - source $GRAVIS/install-jdk
+```
+### Clean Gradle caching
+
+Caching may help speeding up your Gradle build.
+However, by default, the Gradle cache folder is always modified after a run.
+The result is that Travis re-compresses and re-uploads the cache every time,
+for no reason, spoiling the speedup.
+We provide a script for cleaning up the cache,
+making the build faster (and the cache smaller).
+
+Here is the relevant part of your `.travis.yml`.
+Code comments contain relevant details, please read them.
+
+``` yaml
+env:
+  global:
+    # Convenience variables for shortening commands
+    - GRAVIS_REPO="https://github.com/DanySK/Gravis-CI.git"
+    - GRAVIS="$HOME/gravis"
+before_install:
+  # Check out the script set
+  - travis_retry git clone --depth 1 $GRAVIS_REPO $GRAVIS
 before_cache:
-  - curl "${GRAVIS}.clean_gradle_cache.sh" --output ~/.clean_gradle_cache.sh
-  - bash ~/.clean_gradle_cache.sh
+  - $GRAVIS/clean-gradle-cache
 cache:
   directories:
-    # This avoids re-downloading the JDK every time, but Travis recommends not to do it
-    # - $HOME/.jabba/
-    # If you use Gradle, you may want to save some time with caching
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
 ```
