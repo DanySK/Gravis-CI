@@ -29,7 +29,6 @@ echo "...done. Setting global to ${PYTHON}..."
 pyenv global $PYTHON
 pyenv rehash
 echo "...done. Checking version."
-python -c "print('This is Python')" || false
 echo "python -V: $(python -V)"
 python -V | grep "$PYTHON" || (echo mismatched python version && false)
 echo "pip -V"
