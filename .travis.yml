@@ -4,6 +4,7 @@ _python_job: &python_job
   stage: python
   script: source $GRAVIS/install-python
 
+if: NOT commit_message =~ /\[\s*SKIP(_|-|\s*)BUILD.*\].*/
 language: minimal
 os:
   - linux
