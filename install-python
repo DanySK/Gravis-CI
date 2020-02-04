@@ -24,12 +24,12 @@ LATEST_PYTHON_STABLE=$(pyenv install -l | awk '{$1=$1};1' | sort -r | grep -E '^
 echo "The latest version available on pyenv is $LATEST_PYTHON_STABLE"
 PYTHON="${PYTHON:-$LATEST_PYTHON_STABLE}"
 echo "Python version selected: $PYTHON. Installing..."
-travis_wait pyenv install --skip-existing $PYTHON
+pyenv install -q --skip-existing $PYTHON
 echo "...done. Setting global to ${PYTHON}..."
 pyenv global $PYTHON
 echo "...done. Checking version."
-echo "python -V: $(python -V)"
-echo "pip -V: $(pip -V)"
-echo "Python is set to $(which python)"
-echo "pip is set to $(which pip)"
+echo "python -V: $(python -V || exit 1)"
+echo "pip -V: $(pip -V || exit 1)"
+echo "Python is set to $(which python || exit 1)"
+echo "pip is set to $(which pip || exit 1)"
 set +e
