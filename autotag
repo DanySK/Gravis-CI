@@ -1,0 +1,4 @@
+#!/bin/bash
+git describe --tags --exact-match HEAD \
+|| git tag $(git describe) \
+|| git tag "0.1.0-$(git log -n1 --date=format:'%Y-%m-%dT%H%m%S' --format=%cd)"
