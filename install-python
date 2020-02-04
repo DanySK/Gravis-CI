@@ -29,8 +29,8 @@ echo "...done. Setting global to ${PYTHON}..."
 pyenv global $PYTHON
 echo "...done. Checking version."
 python -c "print('This is Python')" || false
-echo "python -V:"
-python -V || false
+echo "python -V: $(python -V)"
+python -V | grep "$PYTHON" || (echo mismatched python version && false)
 echo "pip -V"
 pip -V || false
 echo "Python is set to $(which python)"
