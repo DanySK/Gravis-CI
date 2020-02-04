@@ -15,9 +15,10 @@ env:
 before_install:
   - travis_retry git clone $GRAVIS_REPO $GRAVIS
 script:
-  - travis_retry source $GRAVIS/install-jdk
-  - travis_retry source $GRAVIS/install-maven
-  - travis_retry source $GRAVIS/install-python
+  # Never use travis_retry: hides failures. travis_retry is used internally where possible.
+  - source $GRAVIS/install-jdk
+  - source $GRAVIS/install-maven
+  - source $GRAVIS/install-python
 before_cache:
   - $GRAVIS/clean-gradle-cache
 notifications:
