@@ -46,9 +46,11 @@ before_install:
   # Check out the script set
   - travis_retry git clone --depth 1 $GRAVIS_REPO $GRAVIS
   # Install the JDK you configured in the $JDK environment variable
+  # Never use travis_retry: hides failures. travis_retry is used internally where possible.
   - source $GRAVIS/install-jdk
 ```
-### Clean Gradle caching
+
+### Better Gradle caching
 
 Caching may help speeding up your Gradle build.
 However, by default, the Gradle cache folder is always modified after a run.
@@ -75,6 +77,35 @@ cache:
   directories:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
+```
+
+### Installing Apache Maven
+
+Apache Maven does not ship an utility script similar to Gradle's wrapper.
+As such, we provide a way to fetch and install it on the fly.
+You may want to cherry pick what you need from the following snippet and use it in a build that also leverages Gravis for installing the JDK.
+
+```yaml
+# Java is not yet supported on Windows, so the build would block.
+# You do not need any setup from Travis, use a plain bash build
+env:
+  global:
+    - GRAVIS_REPO="https://github.com/DanySK/Gravis-CI.git"
+    - GRAVIS="$HOME/gravis"
+  # The following is optional
+  matrix:
+    # List any Maven you want to build your software with.
+    # If omitted, the latest available version will be used.
+    - MAVEN_VERSION="3.6.3"
+    - MAVEN_VERSION="3.6.0"
+before_install:
+  # Check out the script set
+  - travis_retry git clone --depth 1 $GRAVIS_REPO $GRAVIS
+  # Never use travis_retry: hides failures. travis_retry is used internally where possible.
+  # Java is required, either use "language: java" or, better, rely on Gravis
+  - source $GRAVIS/install-jdk
+  # Install the MAVEN_VERSION of your like
+  - source $GRAVIS/install-maven
 ```
 
 ## Contributing to the project
