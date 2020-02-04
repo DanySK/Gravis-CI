@@ -1,7 +1,13 @@
+# UTILITIES
+
+_python_job: &python_job
+  stage: python
+  script: source $GRAVIS/install-python
+
 language: minimal
 os:
-#  - linux
-#  - osx
+  - linux
+  - osx
   - windows
 env:
   global:
@@ -9,16 +15,32 @@ env:
     - GRAVIS="$HOME/gravis"
   matrix:
     - JDK="adopt"
-    #- JDK="adopt@1.8"
-    #- JDK="adopt-openj9"
-#    - JDK="amazon-corretto"
+    - JDK="adopt@1.8"
+    - JDK="adopt@1.11"
+    - JDK="adopt-openj9"
+    - JDK="adopt-openj9@1.8"
+    - JDK="adopt-openj9@1.11"
+jobs:
+  include:
+    - <<: *python_job
+    - <<: *python_job
+      env: PYTHON="3.6.1"
+    - <<: *python_job
+      os: osx
+    - <<: *python_job
+      env: PYTHON="3.6.1"
+      os: osx
+    - <<: *python_job
+      os: windows
+    - <<: *python_job
+      env: PYTHON="3.6.1"
+      os: windows
 before_install:
   - travis_retry git clone $GRAVIS_REPO $GRAVIS
 script:
   # Never use travis_retry: hides failures. travis_retry is used internally where possible.
   - source $GRAVIS/install-jdk
   - source $GRAVIS/install-maven
-  - source $GRAVIS/install-python
 before_cache:
   - $GRAVIS/clean-gradle-cache
 notifications:
