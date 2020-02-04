@@ -27,6 +27,7 @@ echo "Python version selected: $PYTHON. Installing..."
 pyenv install -q --skip-existing $PYTHON
 echo "...done. Setting global to ${PYTHON}..."
 pyenv global $PYTHON
+pyenv rehash
 echo "...done. Checking version."
 python -c "print('This is Python')" || false
 echo "python -V: $(python -V)"
