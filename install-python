@@ -28,8 +28,8 @@ pyenv install -q --skip-existing $PYTHON
 echo "...done. Setting global to ${PYTHON}..."
 pyenv global $PYTHON
 echo "...done. Checking version."
-echo "python -V: $(python -V || exit 1)"
-echo "pip -V: $(pip -V || exit 1)"
-echo "Python is set to $(which python || exit 1)"
-echo "pip is set to $(which pip || exit 1)"
+echo "python -V: $(python -V || travis_terminate 1)"
+echo "pip -V: $(pip -V || travis_terminate 1)"
+echo "Python is set to $(which python || travis_terminate 1)"
+echo "pip is set to $(which pip || travis_terminate 1)"
 set +e
