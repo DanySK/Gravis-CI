@@ -10,6 +10,7 @@ then
     export PYENV_ROOT="$HOME/.pyenv/pyenv-win"
     ls -ahl $PYENV_ROOT
     ls -ahl $PYENV_ROOT/bin
+    PYENV_ADDITIONAL_OPTIONS="-q"
 else
     echo "Installing pyenv"
     export PYENV_ROOT="$HOME/.pyenv"
@@ -24,7 +25,7 @@ LATEST_PYTHON_STABLE=$(pyenv install -l | awk '{$1=$1};1' | sort -r | grep -E '^
 echo "The latest version available on pyenv is $LATEST_PYTHON_STABLE"
 PYTHON="${PYTHON:-$LATEST_PYTHON_STABLE}"
 echo "Python version selected: $PYTHON. Installing..."
-travis_retry pyenv install -q --skip-existing $PYTHON
+travis_retry pyenv install $PYENV_ADDITIONAL_OPTIONS --skip-existing $PYTHON
 echo "...done. Setting global to ${PYTHON}..."
 pyenv global $PYTHON
 pyenv rehash
