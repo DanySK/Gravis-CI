@@ -6,7 +6,9 @@ _python_job: &python_job
 
 _maven_job: &maven_job
   stage: maven
-  script: source $GRAVIS/install-maven
+  script:
+    - source $GRAVIS/install-jdk
+    - source $GRAVIS/install-maven
 
 if: NOT commit_message =~ /\[\s*SKIP(_|-|\s*)BUILD.*\].*/
 language: minimal
