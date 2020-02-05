@@ -154,6 +154,8 @@ env:
   global:
     - GRAVIS_REPO="https://github.com/DanySK/Gravis-CI.git"
     - GRAVIS="$HOME/gravis"
+before_install:
+  - travis_retry git clone --depth 1 $GRAVIS_REPO $GRAVIS
 before_deploy:
   # The script requires appropriate git configuration.
   # This README's got my name so it's quicker for me to copy/paste. You want to change it.
