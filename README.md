@@ -86,8 +86,6 @@ As such, we provide a way to fetch and install it on the fly.
 You may want to cherry pick what you need from the following snippet and use it in a build that also leverages Gravis for installing the JDK.
 
 ```yaml
-# Java is not yet supported on Windows, so the build would block.
-# You do not need any setup from Travis, use a plain bash build
 env:
   global:
     - GRAVIS_REPO="https://github.com/DanySK/Gravis-CI.git"
@@ -106,6 +104,31 @@ before_install:
   - source $GRAVIS/install-jdk
   # Install the MAVEN_VERSION of your like
   - source $GRAVIS/install-maven
+```
+
+### Installing Python
+
+Python is not provided in every travis environment.
+The goal of the following is enabling multi-os installation via either [pyenv](https://github.com/pyenv/pyenv) or [pyenv-win](https://github.com/pyenv-win/pyenv-win).
+
+```yaml
+env:
+  global:
+    - GRAVIS_REPO="https://github.com/DanySK/Gravis-CI.git"
+    - GRAVIS="$HOME/gravis"
+  matrix:
+    # List any Python version you want to run with
+    - PYTHON="2.7.0"
+    - PYTHON="3.6.0"
+    # Partial matches allowed: pick the last matching
+    - PYTHON="3"
+    # Latest stable
+    - PYTHON=""
+before_install:
+  # Check out the script set
+  - travis_retry git clone --depth 1 $GRAVIS_REPO $GRAVIS
+  # Never use travis_retry: hides failures. travis_retry is used internally where possible.
+  - source $GRAVIS/install-python
 ```
 
 ## Contributing to the project
