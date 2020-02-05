@@ -134,6 +134,34 @@ cache:
   - $PYENV_ROOT
 ```
 
+### Meaningful tagging for non-tag releases
+
+It's possible to configure travis for releasing non-tagged branches.
+However, it creates ugly `untagged-COMMITHASH` releases, and GitHub (reasonably) does not sort them by date.
+Gravis proposes an alternative tagging system via appropriate script.
+Strategy:
+1. if there is a tag, that's the tag. (you don't say)
+2. if git describe provides a meaningful output, then that's the tag: `lastTag-COMMIT_COUNT-COMMIT_HASH`, e.g., `1.2.3-32-foo42bar`
+3. if no tag can be reached down the history, default to `0.1.0-COMMIT_DATE`, e.g. `0.1.0-2020-02-05T225533`
+
+If tags are [Semantic Versioning](https://semver.org/) compatible, the output should remain Semantic Versioning compatible.
+
+```yaml
+# I strongly suggest to disable shallow clone, or tags may get lost
+git:
+  depth: false
+env:
+  global:
+    - GRAVIS_REPO="https://github.com/DanySK/Gravis-CI.git"
+    - GRAVIS="$HOME/gravis"
+before_deploy:
+  # The script requires appropriate git configuration.
+  # This README's got my name so it's quicker for me to copy/paste. You want to change it.
+  - git config --local user.name "Danilo Pianini"
+  - git config --local user.email "danilo.pianini@gmail.com"
+  - $GRAVIS/autotag
+```
+
 ## Contributing to the project
 
 I gladly review pull requests and I'm happy to improve the work.
