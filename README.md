@@ -129,6 +129,9 @@ before_install:
   - travis_retry git clone --depth 1 $GRAVIS_REPO $GRAVIS
   # Never use travis_retry: hides failures. travis_retry is used internally where possible.
   - source $GRAVIS/install-python
+cache:
+  # Installing Python is quite slow. Caching is warmly recommended
+  - $PYENV_ROOT
 ```
 
 ## Contributing to the project
