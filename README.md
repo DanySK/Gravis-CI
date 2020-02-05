@@ -86,8 +86,6 @@ As such, we provide a way to fetch and install it on the fly.
 You may want to cherry pick what you need from the following snippet and use it in a build that also leverages Gravis for installing the JDK.
 
 ```yaml
-# Java is not yet supported on Windows, so the build would block.
-# You do not need any setup from Travis, use a plain bash build
 env:
   global:
     - GRAVIS_REPO="https://github.com/DanySK/Gravis-CI.git"
@@ -106,6 +104,62 @@ before_install:
   - source $GRAVIS/install-jdk
   # Install the MAVEN_VERSION of your like
   - source $GRAVIS/install-maven
+```
+
+### Installing Python
+
+Python is not provided in every travis environment.
+The goal of the following is enabling multi-os installation via either [pyenv](https://github.com/pyenv/pyenv) or [pyenv-win](https://github.com/pyenv-win/pyenv-win).
+
+```yaml
+env:
+  global:
+    - GRAVIS_REPO="https://github.com/DanySK/Gravis-CI.git"
+    - GRAVIS="$HOME/gravis"
+  matrix:
+    # List any Python version you want to run with
+    - PYTHON="2.7.0"
+    - PYTHON="3.6.0"
+    # Partial matches allowed: pick the last matching
+    - PYTHON="3"
+    # Latest stable
+    - PYTHON=""
+before_install:
+  # Check out the script set
+  - travis_retry git clone --depth 1 $GRAVIS_REPO $GRAVIS
+  # Never use travis_retry: hides failures. travis_retry is used internally where possible.
+  - source $GRAVIS/install-python
+cache:
+  # Installing Python is quite slow. Caching is warmly recommended
+  - $PYENV_ROOT
+```
+
+### Meaningful tagging for non-tag releases
+
+It's possible to configure travis for releasing non-tagged branches.
+However, it creates ugly `untagged-COMMITHASH` releases, and GitHub (reasonably) does not sort them by date.
+Gravis proposes an alternative tagging system via appropriate script.
+Strategy:
+1. if there is a tag, that's the tag. (you don't say)
+2. if git describe provides a meaningful output, then that's the tag: `lastTag-COMMIT_COUNT-COMMIT_HASH`, e.g., `1.2.3-32-foo42bar`
+3. if no tag can be reached down the history, default to `0.1.0-COMMIT_DATE`, e.g. `0.1.0-2020-02-05T225533`
+
+If tags are [Semantic Versioning](https://semver.org/) compatible, the output should remain Semantic Versioning compatible.
+
+```yaml
+# I strongly suggest to disable shallow clone, or tags may get lost
+git:
+  depth: false
+env:
+  global:
+    - GRAVIS_REPO="https://github.com/DanySK/Gravis-CI.git"
+    - GRAVIS="$HOME/gravis"
+before_deploy:
+  # The script requires appropriate git configuration.
+  # This README's got my name so it's quicker for me to copy/paste. You want to change it.
+  - git config --local user.name "Danilo Pianini"
+  - git config --local user.email "danilo.pianini@gmail.com"
+  - $GRAVIS/autotag
 ```
 
 ## Contributing to the project
