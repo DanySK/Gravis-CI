@@ -11,7 +11,7 @@ install_jdk () {
 }
 
 unix_pre () {
-    curl -sL https://github.com/shyiko/jabba/raw/master/install.sh | bash && . ~/.jabba/jabba.sh
+    travis_retry curl -sL https://github.com/shyiko/jabba/raw/master/install.sh | bash && . ~/.jabba/jabba.sh
     unset _JAVA_OPTIONS
 }
 
@@ -25,7 +25,7 @@ install_jabba_on_osx () {
 }
 
 install_jabba_on_windows () {
-    PowerShell -ExecutionPolicy Bypass -Command '[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; Invoke-Expression (Invoke-WebRequest https://github.com/shyiko/jabba/raw/master/install.ps1 -UseBasicParsing).Content'
+    travis_retry PowerShell -ExecutionPolicy Bypass -Command '[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; Invoke-Expression (Invoke-WebRequest https://github.com/shyiko/jabba/raw/master/install.ps1 -UseBasicParsing).Content'
     export PATH="$HOME/.jabba/bin/:$PATH"
 }
 
