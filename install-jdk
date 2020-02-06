@@ -67,5 +67,7 @@ else
     install_jdk
     which java
     java -Xmx32m -version
+    jabba current | grep $JDK
     set +e
 fi
+
