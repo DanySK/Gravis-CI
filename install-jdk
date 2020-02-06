@@ -4,7 +4,7 @@ install_jdk () {
         echo $ACTUAL_JDK was available and Jabba is using it
     else
         echo installing $ACTUAL_JDK
-        travis_retry jabba install "$ACTUAL_JDK" || exit $?
+        travis_retry jabba install "$ACTUAL_JDK"
         echo setting $ACTUAL_JDK as Jabba default
         jabba use $ACTUAL_JDK || exit $?
     fi
