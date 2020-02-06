@@ -56,8 +56,8 @@ complete_installation_on_windows () {
 set -e
 echo "running ${TRAVIS_OS_NAME}-specific configuration"
 echo "installing Jabba"
-jabba || exit 1
 install_jabba_on_$TRAVIS_OS_NAME
+jabba || (echo "Jabba installation failed" && false)
 JDK=${JDK:-"."}
 echo "Computing best match for required JDK version: $JDK"
 ACTUAL_JDK="$(echo $(travis_retry jabba ls-remote > >(grep -m1 $JDK)))"
