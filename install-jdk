@@ -25,8 +25,15 @@ install_jabba_on_osx () {
 }
 
 install_jabba_on_windows () {
-    travis_retry PowerShell -ExecutionPolicy Bypass -Command '[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; Invoke-Expression (Invoke-WebRequest https://github.com/shyiko/jabba/raw/master/install.ps1 -UseBasicParsing).Content'
     export PATH="$HOME/.jabba/bin/:$PATH"
+    echo Running Jabba installation on Windows 
+    POWERSHELL_COMMAND="PowerShell -ExecutionPolicy Bypass -Command '
+        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12;
+        Invoke-Expression (
+            Invoke-WebRequest https://github.com/shyiko/jabba/raw/master/install.ps1 -UseBasicParsing
+        ).Content'"
+    travis_retry eval "$POWERSHELL_COMMAND && jabba"
+    echo Indirect installation via PowerShell completed
 }
 
 complete_installation_on_linux () {
