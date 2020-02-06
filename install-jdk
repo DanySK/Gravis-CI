@@ -4,14 +4,17 @@ install_jdk () {
         echo $ACTUAL_JDK was available and Jabba is using it
     else
         echo installing $ACTUAL_JDK
-        travis_retry jabba install "$ACTUAL_JDK" || exit $?
+        travis_retry jabba install "$ACTUAL_JDK"
         echo setting $ACTUAL_JDK as Jabba default
         jabba use $ACTUAL_JDK || exit $?
     fi
 }
 
 unix_pre () {
-    curl -sL https://github.com/shyiko/jabba/raw/master/install.sh | bash && . ~/.jabba/jabba.sh
+    echo Downloading Jabba installation script
+    travis_retry eval "curl -sL https://github.com/shyiko/jabba/raw/master/install.sh | bash"
+    echo Sourcing jabba.sh
+    source ~/.jabba/jabba.sh
     unset _JAVA_OPTIONS
 }
 
@@ -25,8 +28,15 @@ install_jabba_on_osx () {
 }
 
 install_jabba_on_windows () {
-    PowerShell -ExecutionPolicy Bypass -Command '[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; Invoke-Expression (Invoke-WebRequest https://github.com/shyiko/jabba/raw/master/install.ps1 -UseBasicParsing).Content'
     export PATH="$HOME/.jabba/bin/:$PATH"
+    echo Running Jabba installation on Windows 
+    POWERSHELL_COMMAND="PowerShell -ExecutionPolicy Bypass -Command '
+        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12;
+        Invoke-Expression (
+            Invoke-WebRequest https://github.com/shyiko/jabba/raw/master/install.ps1 -UseBasicParsing
+        ).Content'"
+    travis_retry eval "$POWERSHELL_COMMAND && jabba"
+    echo Indirect installation via PowerShell completed
 }
 
 complete_installation_on_linux () {
@@ -47,6 +57,7 @@ set -e
 echo "running ${TRAVIS_OS_NAME}-specific configuration"
 echo "installing Jabba"
 install_jabba_on_$TRAVIS_OS_NAME
+jabba || (echo "Jabba installation failed" && false)
 JDK=${JDK:-"."}
 echo "Computing best match for required JDK version: $JDK"
 ACTUAL_JDK="$(echo $(travis_retry jabba ls-remote > >(grep -m1 $JDK)))"
@@ -67,5 +78,7 @@ else
     install_jdk
     which java
     java -Xmx32m -version
+    jabba current | grep $JDK
     set +e
 fi
+

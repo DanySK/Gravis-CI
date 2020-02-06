@@ -18,8 +18,7 @@ os:
   - windows
 env:
   global:
-    - GRAVIS_REPO="https://github.com/DanySK/Gravis-CI.git"
-    - GRAVIS="$HOME/gravis"
+    - GRAVIS="$TRAVIS_BUILD_DIR"
   matrix:
     - JDK=""
     - JDK="adopt"
@@ -56,8 +55,6 @@ jobs:
     - <<: *maven_job
       env: MAVEN_VERSION="3.6.1"
       os: windows
-before_install:
-  - travis_retry git clone --depth 1 $GRAVIS_REPO $GRAVIS
 script:
   # Never use travis_retry: hides failures. travis_retry is used internally where possible.
   - source $GRAVIS/install-jdk
