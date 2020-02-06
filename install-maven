@@ -2,7 +2,7 @@
 set -e
 MIRROR="https://archive.apache.org/dist/maven/maven-3/"
 echo "Fetching the latest available Maven from $MIRROR"
-LATEST_MAVEN=$( curl $MIRROR | python -c "
+LATEST_MAVEN=$(travis_retry curl $MIRROR > >(python -c "
 import re
 import sys
 versions = [
@@ -11,7 +11,7 @@ versions = [
   for match in re.findall(r'.*href=\"(\d+\.\d+\.\d+)\/\">', line)
 ]
 print(max(versions))
-" )
+" ))
 echo "Latest available version is $LATEST_MAVEN"
 MAVEN_VERSION=${MAVEN_VERSION:-$LATEST_MAVEN}
 echo "Installing Maven ${MAVEN_VERSION} on ${TRAVIS_OS_NAME}"
