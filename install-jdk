@@ -73,7 +73,6 @@ else
     export JAVA_HOME="$HOME/.jabba/jdk/$ACTUAL_JDK"
     complete_installation_on_$TRAVIS_OS_NAME
     export PATH="$JAVA_HOME/bin:$PATH"
-    # Apparently exported variables are ignored in subseguent phases on Windows. Write in config file
     install_jdk
     which java
     java -Xmx32m -version
