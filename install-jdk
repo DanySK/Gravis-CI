@@ -52,7 +52,6 @@ complete_installation_on_osx () {
 complete_installation_on_windows () {
     # Windows is unable to clean child processes, so no Gradle daemon allowed
     export GRADLE_OPTS="-Dorg.gradle.daemon=false $GRADLE_OPTS"
-    echo 'export GRADLE_OPTS="-Dorg.gradle.daemon=false $GRADLE_OPTS"' >> ~/.jdk_config
 }
 
 set -e
@@ -75,8 +74,6 @@ else
     complete_installation_on_$TRAVIS_OS_NAME
     export PATH="$JAVA_HOME/bin:$PATH"
     # Apparently exported variables are ignored in subseguent phases on Windows. Write in config file
-    echo "export JAVA_HOME=\"${JAVA_HOME}\"" >> ~/.jdk_config
-    echo "export PATH=\"${PATH}\"" >> ~/.jdk_config
     install_jdk
     which java
     java -Xmx32m -version
