@@ -7,7 +7,7 @@ then
     PYENV="$HOME/.pyenv"
     if [ "$(ls -A $PYENV)" ]
     then
-        echo "pyenv-win seems to be already installed (cached?)
+        echo "pyenv-win seems to be already installed (cached?)"
     else
         echo "Installing pyenv-win"
         travis_retry git clone --depth=1 https://github.com/pyenv-win/pyenv-win.git $PYENV
@@ -20,7 +20,7 @@ else
     export PYENV_ROOT="$HOME/.pyenv"
     if [ "$(ls -A $PYENV_ROOT)" ]
     then
-        echo "pyenv seems to be already installed (cached?)
+        echo "pyenv seems to be already installed (cached?)"
     else
         echo "Installing pyenv"
         travis_retry git clone --depth=1 https://github.com/pyenv/pyenv.git $PYENV_ROOT
