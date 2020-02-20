@@ -10,7 +10,16 @@ _maven_job: &maven_job
     - source $GRAVIS/install-jdk
     - source $GRAVIS/install-maven
 
+stages:
+  - name: test
+    if: NOT commit_message =~ /\[\s*(PYTHON|MAVEN).*\].*/
+  - name: python
+    if: NOT commit_message =~ /\[\s*(JDK|MAVEN).*\].*/
+  - name: maven
+    if: NOT commit_message =~ /\[\s*(JDK|PYTHON).*\].*/
+
 if: NOT commit_message =~ /\[\s*SKIP(_|-|\s*)BUILD.*\].*/
+
 language: minimal
 os:
   - linux
