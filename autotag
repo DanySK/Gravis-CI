@@ -2,3 +2,4 @@
 git describe --tags --exact-match HEAD \
 || (git describe && git tag $(git describe)) \
 || git tag "0.1.0-$(git log -n1 --date=format:'%Y-%m-%dT%H%m%S' --format=%cd)"
+echo "Local tag created or already existing: $(git describe --tags --exact-match HEAD)"
