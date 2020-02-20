@@ -131,7 +131,7 @@ before_install:
   - source $GRAVIS/install-python
 cache:
   # Installing Python is quite slow. Caching is warmly recommended
-  - $PYENV_ROOT
+  - $HOME/.pyenv
 ```
 
 ### Meaningful tagging for non-tag releases
