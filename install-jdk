@@ -1,10 +1,13 @@
 #!/bin/echo This script needs to be sourced, not executed!
+
 install_jdk () {
     if jabba use $ACTUAL_JDK; then
         echo $ACTUAL_JDK was available and Jabba is using it
     else
         echo installing $ACTUAL_JDK
-        travis_retry jabba install "$ACTUAL_JDK"
+        jabba install "$ACTUAL_JDK"
+        jabba install "$ACTUAL_JDK"
+        jabba install "$ACTUAL_JDK"
         echo setting $ACTUAL_JDK as Jabba default
         jabba use $ACTUAL_JDK || exit $?
     fi
@@ -12,9 +15,7 @@ install_jdk () {
 
 unix_pre () {
     echo Downloading Jabba installation script
-    JABBA_INSTALLER=$(travis_retry curl -sL https://github.com/shyiko/jabba/raw/master/install.sh)
-    echo Download successful. Installing Jabba.
-    echo "$JABBA_INSTALLER" | bash
+    curl -sL --retry 100 https://github.com/shyiko/jabba/raw/master/install.sh | bash
     echo Sourcing jabba.sh
     travis_retry source ~/.jabba/jabba.sh
     unset _JAVA_OPTIONS
