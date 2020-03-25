@@ -50,6 +50,22 @@ before_install:
   - source $GRAVIS/install-jdk
 ```
 
+#### Caching the JDK
+
+Jabba and the JDK can be cached by:
+
+```yaml
+cache:
+  directories:
+    # This avoids re-downloading the JDK every time, but Travis recommends not to do it
+    - $HOME/.jabba/
+```
+
+However, please not that [*Travis-CI explicitly recommends not to do it*](https://docs.travis-ci.com/user/caching/#things-not-to-cache)
+
+> The cache’s purpose is to make installing language-specific dependencies easy and fast, so everything related to tools like Bundler, pip, Composer, npm, Gradle, Maven, is what should go into the cache. Large files that are quick to install but slow to download do not benefit from caching, as they take as long to download from the cache as from the original source: [...] JDK packages
+
+
 ### Better Gradle caching
 
 Caching may help speeding up your Gradle build.
