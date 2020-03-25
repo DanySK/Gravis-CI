@@ -15,7 +15,9 @@ install_jdk () {
 
 unix_pre () {
     echo Downloading Jabba installation script
-    curl -sL --retry 100 https://github.com/shyiko/jabba/raw/master/install.sh | bash
+    mkdir -p ~/.gravis-ci
+    travis_retry curl -sL --retry 100 https://github.com/shyiko/jabba/raw/master/install.sh --output ~/.gravis-ci/install-jabba.sh
+    travis_retry bash ~/.gravis-ci/install-jabba.sh
     echo Sourcing jabba.sh
     travis_retry source ~/.jabba/jabba.sh
     unset _JAVA_OPTIONS
@@ -55,7 +57,6 @@ complete_installation_on_windows () {
     export GRADLE_OPTS="-Dorg.gradle.daemon=false $GRADLE_OPTS"
 }
 
-set -e
 echo "running ${TRAVIS_OS_NAME}-specific configuration"
 echo "installing Jabba"
 install_jabba_on_$TRAVIS_OS_NAME
@@ -74,10 +75,9 @@ else
     export JAVA_HOME="$HOME/.jabba/jdk/$ACTUAL_JDK"
     complete_installation_on_$TRAVIS_OS_NAME
     export PATH="$JAVA_HOME/bin:$PATH"
-    travis_retry install_jdk
+    install_jdk
     which java
     java -Xmx32m -version
     jabba current | grep $JDK
-    set +e
 fi
 
