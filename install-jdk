@@ -16,8 +16,10 @@ install_jdk () {
 unix_pre () {
     echo Downloading Jabba installation script
     mkdir -p ~/.gravis-ci
-    travis_retry curl -sL --retry 100 https://github.com/shyiko/jabba/raw/master/install.sh --output ~/.gravis-ci/install-jabba.sh
-    travis_retry bash ~/.gravis-ci/install-jabba.sh
+    travis_retry eval "\
+        curl -sL --retry 100 https://github.com/shyiko/jabba/raw/master/install.sh --output ~/.gravis-ci/install-jabba.sh\
+        && bash ~/.gravis-ci/install-jabba.sh\
+    "
     echo Sourcing jabba.sh
     travis_retry source ~/.jabba/jabba.sh
     unset _JAVA_OPTIONS
