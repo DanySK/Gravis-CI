@@ -1,4 +1,7 @@
 #!/bin/bash
+echo 'Searching for the gradle executable and stopping the daemons'
+find $HOME -name gradlew -exec {} --stop \; -quit
+echo 'Cleanup files triggering unwanted cache refresh'
 rm -vfr $HOME/.gradle/caches/*/plugin-resolution
 rm -vfr $HOME/.gradle/caches/*/workerMain/
 rm -vfr $HOME/.gradle/caches/*/gradle-kotlin-dsl/*/cache/
