@@ -1,6 +1,6 @@
 #!/bin/bash
 echo 'Searching for the gradle executable and stopping the daemons'
-find $TRAVIS_BUILD_DIR -name gradlew -exec echo Killing Gradle daemons using {} \; -exec "{}" --version \; -quit
+find $TRAVIS_BUILD_DIR -name gradlew -exec echo Killing Gradle daemons using {} \; -exec "{}" --stop \; -quit
 echo 'Cleanup files triggering unwanted cache refresh'
 rm -vfr $HOME/.gradle/caches/*/plugin-resolution
 rm -vfr $HOME/.gradle/caches/*/workerMain/
