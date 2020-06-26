@@ -29,7 +29,7 @@ env:
   global:
     - GRAVIS="$TRAVIS_BUILD_DIR"
   matrix:
-    - JDK=""
+#    - JDK="" # Blocked by https://github.com/shyiko/jabba/issues/645
     - JDK="adopt"
     - JDK="adopt@1.8"
     - JDK="adopt@1.11"
