@@ -1,26 +1,35 @@
 #!/bin/echo This script needs to be sourced, not executed!
+# shellcheck disable=SC2096
+# shellcheck shell=bash
 
 install_jdk () {
-    if jabba use $ACTUAL_JDK; then
-        echo $ACTUAL_JDK was available and Jabba is using it
+    if jabba use "$ACTUAL_JDK"
+    then
+        echo "Gravis-CI $ACTUAL_JDK was available and Jabba is using it"
     else
-        echo installing $ACTUAL_JDK
+        echo "Gravis-CI installing $ACTUAL_JDK"
         jabba install "$ACTUAL_JDK"
         jabba install "$ACTUAL_JDK"
         jabba install "$ACTUAL_JDK"
-        echo setting $ACTUAL_JDK as Jabba default
-        jabba use $ACTUAL_JDK || exit $?
+        echo "Gravis-CI setting $ACTUAL_JDK as Jabba default"
+        jabba use "$ACTUAL_JDK" || exit $?
     fi
 }
 
 unix_pre () {
-    echo Downloading Jabba installation script
-    mkdir -p ~/.gravis-ci
-    travis_retry eval "\
-        curl -sL --retry 100 https://github.com/shyiko/jabba/raw/master/install.sh --output ~/.gravis-ci/install-jabba.sh\
-        && bash ~/.gravis-ci/install-jabba.sh\
-    "
-    echo Sourcing jabba.sh
+    echo "Gravis-CI Checking for existing Jabba installation"
+    if [ -d ~/.jabba ] && [ -f ~/.jabba/jabba.sh ]; then
+        echo "Gravis-CI Jabba installation exists"
+    else
+        echo "Gravis-CI Downloading Jabba installation script"
+        mkdir -p ~/.gravis-ci
+        travis_retry eval "\
+            curl -sSL --retry-delay 60 --retry 10\
+            https://raw.githubusercontent.com/shyiko/jabba/master/install.sh --output ~/.gravis-ci/install-jabba.sh\
+            && bash ~/.gravis-ci/install-jabba.sh\
+        "
+    fi
+    echo "Gravis-CI Sourcing jabba.sh"
     travis_retry source ~/.jabba/jabba.sh
     unset _JAVA_OPTIONS
 }
@@ -36,14 +45,14 @@ install_jabba_on_osx () {
 
 install_jabba_on_windows () {
     export PATH="$HOME/.jabba/bin/:$PATH"
-    echo Running Jabba installation on Windows 
+    echo "Gravis-CI Running Jabba installation on Windows"
     POWERSHELL_COMMAND="PowerShell -ExecutionPolicy Bypass -Command '
         [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12;
         Invoke-Expression (
-            Invoke-WebRequest https://github.com/shyiko/jabba/raw/master/install.ps1 -UseBasicParsing
+            Invoke-WebRequest https://raw.githubusercontent.com/shyiko/jabba/master/install.ps1 -UseBasicParsing
         ).Content'"
     travis_retry eval "$POWERSHELL_COMMAND && jabba"
-    echo Indirect installation via PowerShell completed
+    echo "Gravis-CI Indirect installation via PowerShell completed"
 }
 
 complete_installation_on_linux () {
@@ -59,27 +68,37 @@ complete_installation_on_windows () {
     export GRADLE_OPTS="-Dorg.gradle.daemon=false $GRADLE_OPTS"
 }
 
-echo "running ${TRAVIS_OS_NAME}-specific configuration"
-echo "installing Jabba"
-install_jabba_on_$TRAVIS_OS_NAME
-jabba || (echo "Jabba installation failed" && false)
+echo "Gravis-CI running ${TRAVIS_OS_NAME}-specific configuration"
+echo "Gravis-CI installing Jabba"
+install_jabba_on_"$TRAVIS_OS_NAME"
+jabba || echo "Jabba installation failed" && false
 JDK=${JDK:-"."}
-echo "Computing best match for required JDK version: $JDK"
-ACTUAL_JDK="$(echo $(travis_retry jabba ls-remote > >(grep -m1 $JDK)))"
-echo "Selected JDK: $ACTUAL_JDK"
-if [ -z $ACTUAL_JDK ]
+
+# It is possible we have already installed a compatible JDK. Check local first
+# in an attempt to avoid a possible remote list failure
+echo "Gravis-CI Checking for existing local install compatible with $JDK"
+ACTUAL_JDK="$(travis_retry jabba ls > >(grep -m1 "$JDK"))"
+echo "Gravis-CI Detected possible local JDK match: $ACTUAL_JDK"
+if [ -z "$ACTUAL_JDK" ]
 then
-    echo "No JDK version is compatible with $JDK. Available JDKs are:"
-    jabba ls-remote
-    exit 2
-else
-    echo "Best match is $ACTUAL_JDK"
-    export JAVA_HOME="$HOME/.jabba/jdk/$ACTUAL_JDK"
-    complete_installation_on_$TRAVIS_OS_NAME
-    export PATH="$JAVA_HOME/bin:$PATH"
-    install_jdk
-    which java
-    java -Xmx32m -version
-    jabba current | grep $JDK
+    echo "Gravis-CI did not find compatible existing local install"
+    echo "Gravis-CI Computing best match for required JDK version: $JDK"
+    # shellcheck disable=SC2046
+    ACTUAL_JDK="$(travis_retry jabba ls-remote > >(grep -m1 "$JDK"))"
+    echo "Gravis-CI Selected JDK: $ACTUAL_JDK"
+    if [ -z "$ACTUAL_JDK" ]
+    then
+        echo "Gravis-CI No JDK version is compatible with $JDK. Available JDKs are:"
+        jabba ls-remote
+        exit 2
+    fi
 fi
 
+echo "Gravis-CI Using best match: $ACTUAL_JDK"
+export JAVA_HOME="$HOME/.jabba/jdk/$ACTUAL_JDK"
+complete_installation_on_"$TRAVIS_OS_NAME"
+export PATH="$JAVA_HOME/bin:$PATH"
+install_jdk
+which java
+java -Xmx32m -version
+jabba current | grep "$JDK"
