@@ -2,11 +2,15 @@
 # Since Gradle 4.10, cache cleaning happens by stopping the running daemon (if any)
 echo 'Searching for the gradle executable and stopping the daemons'
 find $TRAVIS_BUILD_DIR -name gradlew -exec echo Killing Gradle daemons using {} \; -exec "{}" --stop \; -quit
-echo 'Cleanup files triggering unwanted cache refresh'
+
+echo 'Additional cleaning disabled, as it hinders automatic cleaning procedures'
+echo '*.lock files change at every build, generating an unavoidable repack'
+echo 'on the other hand, they are required for Gradle to maintain its cache size under control'
 
 # Manual cleaning disabled, as it hinders automatic cleaning procedures,
 # leading to larger caches and ultimately spoiling the caching in the long run,
 # as large archives take longer to unpack than small archives take to pack and unpack.
+# echo 'Cleanup files triggering unwanted cache refresh'
 # rm -vfr $HOME/.gradle/caches/*/plugin-resolution
 # rm -vfr $HOME/.gradle/caches/*/workerMain/
 # rm -vfr $HOME/.gradle/caches/*/gradle-kotlin-dsl/*/cache/
