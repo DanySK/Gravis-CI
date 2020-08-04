@@ -25,6 +25,7 @@ else
         echo "Installing pyenv"
         travis_retry git clone --depth=1 https://github.com/pyenv/pyenv.git $PYENV_ROOT
     fi
+    PYENV_ADDITIONAL_OPTIONS="--skip-existing"
 fi
 export PATH="$PYENV_ROOT/bin:$PYENV_ROOT/shims:$PATH"
 # eval "$(pyenv init -)"
@@ -35,7 +36,7 @@ LATEST_PYTHON_STABLE=$(pyenv install -l | awk '{$1=$1};1' | sort -r | grep -E '^
 echo "The latest version available on pyenv is $LATEST_PYTHON_STABLE"
 PYTHON="${PYTHON:-$LATEST_PYTHON_STABLE}"
 echo "Python version selected: $PYTHON. Installing..."
-travis_retry pyenv install $PYENV_ADDITIONAL_OPTIONS --skip-existing $PYTHON
+travis_retry pyenv install $PYENV_ADDITIONAL_OPTIONS $PYTHON
 echo "...done. Setting global to ${PYTHON}..."
 pyenv global $PYTHON
 pyenv rehash
