@@ -10,6 +10,9 @@ _maven_job: &maven_job
     - source $GRAVIS/install-jdk
     - source $GRAVIS/install-maven
 
+_old_maven: &old_maven
+  env: MAVEN_VERSION="3.6.1" JDK="adopt"
+
 stages:
   - name: test
     if: NOT commit_message =~ /\[\s*(PYTHON|MAVEN).*\].*/
@@ -29,7 +32,7 @@ env:
   global:
     - GRAVIS="$TRAVIS_BUILD_DIR"
   matrix:
-    - JDK=""
+#    - JDK="" # Blocked by https://github.com/shyiko/jabba/issues/645
     - JDK="adopt"
     - JDK="adopt@1.8"
     - JDK="adopt@1.11"
@@ -53,16 +56,16 @@ jobs:
       os: windows
     - <<: *maven_job
     - <<: *maven_job
-      env: MAVEN_VERSION="3.6.1"
+      <<: *old_maven
     - <<: *maven_job
       os: osx
     - <<: *maven_job
-      env: MAVEN_VERSION="3.6.1"
+      <<: *old_maven
       os: osx
     - <<: *maven_job
       os: windows
     - <<: *maven_job
-      env: MAVEN_VERSION="3.6.1"
+      <<: *old_maven
       os: windows
 script:
   # Never use travis_retry: hides failures. travis_retry is used internally where possible.
