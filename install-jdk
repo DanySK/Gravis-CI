@@ -3,7 +3,7 @@
 # shellcheck shell=bash
 
 install_jdk () {
-    if jabba use "$ACTUAL_JDK"
+    if [ "$GRAVIS_CI_PREFER_CACHE" = "TRUE" ] && jabba use "$ACTUAL_JDK"
     then
         echo "Gravis-CI $ACTUAL_JDK was available and Jabba is using it"
     else
@@ -17,9 +17,8 @@ install_jdk () {
 }
 
 unix_pre () {
-    echo "Gravis-CI Checking for existing Jabba installation"
-    if [ -d ~/.jabba ] && [ -f ~/.jabba/jabba.sh ]; then
-        echo "Gravis-CI Jabba installation exists"
+    if [ "$GRAVIS_CI_PREFER_CACHE" = "TRUE" ] && [ -d ~/.jabba ] && [ -f ~/.jabba/jabba.sh ]; then
+        echo "Gravis-CI Using existing Jabba installation"
     else
         echo "Gravis-CI Downloading Jabba installation script"
         mkdir -p ~/.gravis-ci
@@ -69,6 +68,15 @@ complete_installation_on_windows () {
 }
 
 echo "Gravis-CI running ${TRAVIS_OS_NAME}-specific configuration"
+
+if [ "$GRAVIS_CI_PREFER_CACHE" = "TRUE" ];
+then
+  echo "Gravis-CI configured for GRAVIS_CI_PREFER_CACHE mode TRUE"
+else
+  echo "Gravis-CI not configured for GRAVIS_CI_PREFER_CACHE mode FALSE"
+  GRAVIS_CI_PREFER_CACHE=FALSE
+fi
+
 echo "Gravis-CI installing Jabba"
 install_jabba_on_"$TRAVIS_OS_NAME"
 jabba || echo "Jabba installation failed" && false
