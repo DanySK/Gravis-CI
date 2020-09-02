@@ -1,3 +1,6 @@
+# Do not double-build branches and PRs from this repo
+if: repo != head_repo
+
 # UTILITIES
 
 _python_job: &python_job
