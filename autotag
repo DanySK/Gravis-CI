@@ -4,7 +4,7 @@ function message() {
   cat << EndOfMessage
 Release $1
 
-Generated automatically the Gravis-CI auto-tagging script.
+Generated automatically by the Gravis-CI auto-tagging script.
 EndOfMessage
 }
 
