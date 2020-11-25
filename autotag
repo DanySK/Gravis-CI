@@ -1,6 +1,6 @@
 #!/bin/sh
 
-function message() {
+message() {
   cat << EndOfMessage
 Release "$1"
 
