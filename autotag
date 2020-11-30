@@ -2,7 +2,7 @@
 
 message() {
   cat << EndOfMessage
-Release "$1"
+Release $1
 
 Generated automatically by the Gravis-CI auto-tagging script.
 EndOfMessage
