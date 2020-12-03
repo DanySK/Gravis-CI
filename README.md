@@ -1,6 +1,6 @@
 # Important note
 
-~~## The project has been discontinued~~
+## ~~The project has been discontinued~~
 
 ~~Due to the recent change of pricing policy of Travis CI, I had to migrate the entirety of my pipelines to GitHub Actions.
 I also ran out of credits before even noticing they changed such policy, so it is now impossible to test whether Gravis CI is working or not.
@@ -11,7 +11,7 @@ Unfortunately Travis CI is no longer FOSS-friendly.~~
 
 ~~I'm still using the `autotag` script on some of my GHA builds, so that one can be considered actively maintained.~~
 
-## The project is back to maintenance
+## The project is back to normal
 
 Apparently Travis CI reinstated their FOSS plan.
 So the project can continue being maintained.
