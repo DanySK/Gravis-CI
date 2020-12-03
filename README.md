@@ -1,15 +1,15 @@
 # Important note
 
-~~## The project has been discontinued
+~~## The project has been discontinued~~
 
 ~~Due to the recent change of pricing policy of Travis CI, I had to migrate the entirety of my pipelines to GitHub Actions.
 I also ran out of credits before even noticing they changed such policy, so it is now impossible to test whether Gravis CI is working or not.
 As a consequence, I do not intend to keep on maintaining this project.
 It is still working at the time of writing, and until Jabba will work, Gravis should work as well.
 It is very sad to discontinue this project for me, but there's nothing I can do.
-Unfortunately Travis CI is no longer FOSS-friendly.
+Unfortunately Travis CI is no longer FOSS-friendly.~~
 
-~~I'm still using the `autotag` script on some of my GHA builds, so that one can be considered actively maintained.
+~~I'm still using the `autotag` script on some of my GHA builds, so that one can be considered actively maintained.~~
 
 ## The project is back to maintenance
 
